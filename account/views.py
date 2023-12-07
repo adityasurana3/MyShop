@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm
+from .forms import LoginForm, UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 
@@ -22,6 +22,20 @@ def login_user(request):
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form':form})
+
+def register(request):
+    if request.user.is_authenticated:
+        return HttpResponse("You are already loggedin")
+    elif request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            return render(request, 'register_done.html', {'new_user':new_user})
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'register.html', {'form':form})
 
 
 def logout_user(request):
