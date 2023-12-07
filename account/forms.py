@@ -1,5 +1,6 @@
 from django import forms 
 from django.contrib.auth.models import User
+from .models import Profile
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -24,4 +25,10 @@ class UserRegistrationForm(forms.ModelForm):
          if User.objects.filter(email=email).exists():
              raise forms.ValidationError("Email already exists")
          return email
-             
+    
+    
+class ProfileForm(forms.ModelForm):
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+    class Meta:
+        model = Profile
+        fields = ['date_of_birth', 'image']
