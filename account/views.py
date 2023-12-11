@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, UserRegistrationForm, ProfileForm, PasswordResetForm
+from .forms import LoginForm, UserRegistrationForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.forms import SetPasswordForm, PasswordChangeForm
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
 from django.core.mail import send_mail
@@ -10,7 +10,6 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
-from django.contrib import messages
 
 # Create your views here.
 def login_user(request):
