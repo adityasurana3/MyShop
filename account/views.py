@@ -1,8 +1,16 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, UserRegistrationForm, ProfileForm
+from .forms import LoginForm, UserRegistrationForm, ProfileForm, PasswordResetForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-
+# from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth.models import User
+from django.db.models.query_utils import Q
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.template.loader import render_to_string
+from django.contrib import messages
 
 # Create your views here.
 def login_user(request):
@@ -32,6 +40,9 @@ def register(request):
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
+            next = request.GET.get('next')
+            if next:
+                return redirect(next)
             return render(request, 'account/register_done.html', {'new_user':new_user})
     else:
         form = UserRegistrationForm()
@@ -40,4 +51,36 @@ def register(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('account:login')
+
+def forget_password(request):
+    if request.user.is_authenticated:
+        return HttpResponse("You are already loggedin")
+    elif request.method == "POST":
+        password_form = PasswordResetForm(request.POST)
+        if password_form.is_valid():
+            form_email = password_form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email=form_email))
+            for user in user_email:
+                subject = 'Password Reset'
+                email_template_name = 'account/password_message.txt'
+                parameter = {
+                        'email': user.email,
+                        'domain': '127.0.0.1:8000',
+                        'sitename': 'Ecommerce',
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                        'protocol':'http'
+
+                }
+                email = render_to_string(email_template_name, parameter)
+                send_mail(subject, email, 'your_account@gmail.com', [user.email], fail_silently=False)
+                return redirect('account:password_reset_done')
+        else:
+            return render(request, 'account/password_reset.html', {'form': password_form})
+
+    else:
+        password_form = PasswordResetForm()
+        return render(request, 'account/password_reset.html', {'form':password_form})
+    
+

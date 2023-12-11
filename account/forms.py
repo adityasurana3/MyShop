@@ -32,3 +32,14 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['date_of_birth', 'image']
+
+class PasswordResetForm(forms.Form):
+    email = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if not User.objects.filter(email=email):
+            print("Raised error")
+            raise forms.ValidationError("Your email is not registered in our website")
+        return email
+    
