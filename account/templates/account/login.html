@@ -1,6 +1,7 @@
 
 {% if request.user.is_authenticated %}
 <a href="{% url 'account:logout' %}">logout</a>
+<a href="{% url 'account:change_password' %}">change passowrd</a>
 {% else %}
 <form action="" method="post">
     {% csrf_token %}

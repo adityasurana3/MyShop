@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import LoginForm, UserRegistrationForm, ProfileForm, PasswordResetForm
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
-# from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.forms import SetPasswordForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.db.models.query_utils import Q
 from django.core.mail import send_mail
@@ -83,4 +83,16 @@ def forget_password(request):
         password_form = PasswordResetForm()
         return render(request, 'account/password_reset.html', {'form':password_form})
     
-
+def change_password(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            form = PasswordChangeForm(user=request.user, data=request.POST)
+            if form.is_valid():
+                form.save()
+                update_session_auth_hash(request, form.user)
+                return HttpResponse("Password changes")
+        else:
+            form = PasswordChangeForm(user=request.user)
+        return render(request, 'account/change_password.html', {'form':form})
+    else:
+        return redirect('account:login')
