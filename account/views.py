@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import LoginForm, UserRegistrationForm, PasswordResetForm
+from .forms import LoginForm, UserRegistrationForm, PasswordResetForm, ProfileForm, UserEditForm
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.http import HttpResponse
 from django.contrib.auth.forms import PasswordChangeForm
@@ -10,6 +10,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login_user(request):
@@ -26,6 +27,9 @@ def login_user(request):
                 return render(request, 'account/login.html')
             else:
                 return HttpResponse("Something went wrong")
+        next = request.GET.get('next')
+        if next:
+            return redirect(next)
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form':form})
@@ -39,9 +43,6 @@ def register(request):
             new_user = form.save(commit=False)
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
-            next = request.GET.get('next')
-            if next:
-                return redirect(next)
             return render(request, 'account/register_done.html', {'new_user':new_user})
     else:
         form = UserRegistrationForm()
@@ -81,7 +82,8 @@ def forget_password(request):
     else:
         password_form = PasswordResetForm()
         return render(request, 'account/password_reset.html', {'form':password_form})
-    
+
+@login_required(login_url='account:login')
 def change_password(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
@@ -93,5 +95,23 @@ def change_password(request):
         else:
             form = PasswordChangeForm(user=request.user)
         return render(request, 'account/change_password.html', {'form':form})
+    else:
+        return redirect('account:login')
+
+@login_required(login_url='account:login')
+def edit_profile(request):
+    print(request.user)
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            user_form = UserEditForm(instance=request.user, data=request.POST)
+            profile_form = ProfileForm(instance=request.user.profile, data=request.POST, files=request.FILES)
+            if user_form.is_valid() and profile_form.is_valid():
+                user_form.save()
+                profile_form.save()
+                return HttpResponse("Profile Updated")
+        else:
+            user_form = UserEditForm(instance=request.user)
+            profile_form = ProfileForm(instance=request.user.profile)
+        return render(request, 'account/edit.html', {'user_form':user_form, 'profile_form':profile_form})
     else:
         return redirect('account:login')

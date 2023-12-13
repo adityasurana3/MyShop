@@ -7,7 +7,7 @@
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit">Login</button>
-    <input type="hidden" name="next" value="{{next}}">
+    <input type="hidden" name="next" value="?next={{request.path}}">
 </form>
 <p>If you haven't register yet</p>
 <a href="{% url 'account:register' %}">Register</a>

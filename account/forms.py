@@ -43,3 +43,7 @@ class PasswordResetForm(forms.Form):
             raise forms.ValidationError("Your email is not registered in our website")
         return email
     
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username','first_name', 'last_name', 'email']
