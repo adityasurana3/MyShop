@@ -1,6 +1,19 @@
+{% extends "shop/base.html" %}
+{% block content %}
+{% if messages %}
+    {% for message in messages %}
+        <li{% if message.tags %} id="fade" class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+{% endif %}
 <form action="" method="post">
     {% csrf_token %}
     {{user_form.as_p}}
     {{profile_form.as_p}}
     <button type="submit">Edit</button>
 </form>
+<script>
+    setTimeout(()=>{
+        document.getElementById('fade').style.display = 'none';
+    }, 2500)
+</script>
+{% endblock content %}

@@ -44,6 +44,11 @@ class PasswordResetForm(forms.Form):
         return email
     
 class UserEditForm(forms.ModelForm):
+    # username = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}))
+    def __init__(self, *args, **kwargs):
+        super(UserEditForm, self).__init__(*args, **kwargs)
+        self.fields['username'].disabled = True
+
     class Meta:
         model = User
         fields = ['username','first_name', 'last_name', 'email']

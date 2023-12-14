@@ -11,11 +11,12 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 # Create your views here.
 def login_user(request):
     if request.user.is_authenticated:
-        return HttpResponse("You are logged in")
+        return redirect('shop:product_list')
     elif request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -24,9 +25,10 @@ def login_user(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request,user)
-                return render(request, 'account/login.html')
+                return redirect('shop:product_list')
             else:
-                return HttpResponse("Something went wrong")
+                messages.error(request, "Your username or password is incorrect")
+                return redirect('account:login')
         next = request.GET.get('next')
         if next:
             return redirect(next)
@@ -36,7 +38,7 @@ def login_user(request):
 
 def register(request):
     if request.user.is_authenticated:
-        return HttpResponse("You are already loggedin")
+        return redirect('shop:product_list')
     elif request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -55,7 +57,7 @@ def logout_user(request):
 
 def forget_password(request):
     if request.user.is_authenticated:
-        return HttpResponse("You are already loggedin")
+        return redirect('shop:product_list')
     elif request.method == "POST":
         password_form = PasswordResetForm(request.POST)
         if password_form.is_valid():
@@ -91,7 +93,7 @@ def change_password(request):
             if form.is_valid():
                 form.save()
                 update_session_auth_hash(request, form.user)
-                return HttpResponse("Password changes")
+                return redirect('shop:product_list')
         else:
             form = PasswordChangeForm(user=request.user)
         return render(request, 'account/change_password.html', {'form':form})
@@ -100,7 +102,6 @@ def change_password(request):
 
 @login_required(login_url='account:login')
 def edit_profile(request):
-    print(request.user)
     if request.user.is_authenticated:
         if request.method == "POST":
             user_form = UserEditForm(instance=request.user, data=request.POST)
@@ -108,7 +109,8 @@ def edit_profile(request):
             if user_form.is_valid() and profile_form.is_valid():
                 user_form.save()
                 profile_form.save()
-                return HttpResponse("Profile Updated")
+                messages.success(request, "your profile has been updated")
+                return redirect('account:edit_profile')
         else:
             user_form = UserEditForm(instance=request.user)
             profile_form = ProfileForm(instance=request.user.profile)
