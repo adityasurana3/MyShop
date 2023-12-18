@@ -2,7 +2,7 @@
 {% block content %}
 {% if request.user.is_authenticated %}
 <a href="{% url 'account:logout' %}">logout</a>
-<a href="{% url 'account:change_password' %}">change passowrd</a>
+<a href="{% url 'account:change_password' %}">change password</a>
 {% else %}
 {% if messages %}
     {% for message in messages %}
@@ -15,7 +15,7 @@
     <button type="submit">Login</button>
     <input type="hidden" name="next" value="?next={{request.path}}">
 </form>
-<p>If you haven't register yet</p>
+<p>If you haven't registered yet</p>
 <a href="{% url 'account:register' %}">Register</a>
 <a href="{% url 'account:forget_password' %}">Forget Password</a>
 {% endif %}
