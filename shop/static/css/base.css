@@ -137,14 +137,6 @@ ul.errorlist {
     margin-right:10%;
 }
 
-#header .account {
-    font-family: 'Ubuntu', sans-serif;
-    float:right;
-    color:#333;
-    font-size:22px;
-    margin-right:2%;
-}
-
 #subheader .cart {
     float:right;
     padding-top:4px;
