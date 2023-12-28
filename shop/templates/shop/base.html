@@ -28,8 +28,8 @@
                             {{ total_items }} item{{total_items|pluralize}},
                             {{ cart.get_total_price }}
                         </a>
-                    {% else %}
-                        Your cart is empty
+                    {% elif not order %}
+                        Your car is empty
                     {% endif %}
                 {% endwith %}
             {% endif %}
