@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2k&ia#=o4m+coee^p4mxm5a!xzz^l6o4b5d*!6%sbq@)x@&_m-'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -137,7 +141,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 CART_SESSION_KEY = 'cart'
 
 # Stripe
-STRIPE_PUBLISHABLE_KEY = 'pk_test_51OflHlSEH6bWxaOkc8y8Yn3nXKqRk7IHubj5CBUW2BZVPkUBh0Fqrt13NquhADHspfRwl1jcVWfMmbKlwjnbnMf400qeNzpo00'
-STRIPE_SECRET_KEY = 'sk_test_51OflHlSEH6bWxaOkfUvr95beUGyb0STjp6AxG0heGNjAhmC3hOSNfUAYX9i97AndBR0XOfiYoMYmlBDvabYb2eU900LlF0EAJQ'
-STRIPE_API_VERSION = '2022-08-01'
-STRIPE_WEBHOOK_SECRET = 'whsec_2c510f3519c703032e2606c3ebe1a710a17ae5eee0802d5a85781a568d5a1f8a'
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION = os.getenv('STRIPE_API_VERSION')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')
