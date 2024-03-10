@@ -74,3 +74,7 @@ class Cart:
     def get_total_price_after_discount(self):
         return self.get_total_price() - self.get_discount()
     
+    def clear_coupon(self):
+        del self.session['coupon_id']
+        self.save()
+    
