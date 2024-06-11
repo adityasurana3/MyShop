@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-09 17:13+0530\n"
+"POT-Creation-Date: 2024-06-11 19:15+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,7 +118,6 @@ msgstr ""
 "              \"%(code)s\" (%(discount)s%% descuento)\n"
 "                           "
 
-
 #: orders/templates/orders/order/pdf.html:57
 msgid "Paid"
 msgstr "Pagado"
@@ -126,3 +125,7 @@ msgstr "Pagado"
 #: orders/templates/orders/order/pdf.html:57
 msgid "Pending payment"
 msgstr "Pendiente de pago"
+
+#: orders/urls.py:8
+msgid "create/"
+msgstr ""

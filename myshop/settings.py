@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'orders.apps.OrdersConfig',
     'payment',
     'coupons',
+    'rosetta',
 ]
 
 MIDDLEWARE = [

@@ -8,15 +8,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-09 17:13+0530\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2024-06-11 19:15+0530\n"
+"PO-Revision-Date: 2024-06-11 13:55+0000\n"
+"Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.10.0\n"
 
 #: cart/forms.py:7 cart/templates/cart/detail.html:12
 #: payment/templates/payment/process.html:16
@@ -27,11 +28,13 @@ msgstr "Cantidad"
 msgid "Your shopping cart"
 msgstr "Su carro"
 
-#: cart/templates/cart/detail.html:10 payment/templates/payment/process.html:13
+#: cart/templates/cart/detail.html:10
+#: payment/templates/payment/process.html:13
 msgid "Image"
 msgstr "Imagen"
 
-#: cart/templates/cart/detail.html:11 payment/templates/payment/process.html:14
+#: cart/templates/cart/detail.html:11
+#: payment/templates/payment/process.html:14
 msgid "Product"
 msgstr "Producto"
 
@@ -43,7 +46,8 @@ msgstr "Eliminar"
 msgid "Unit price"
 msgstr "Precio unitario"
 
-#: cart/templates/cart/detail.html:15 payment/templates/payment/process.html:15
+#: cart/templates/cart/detail.html:15
+#: payment/templates/payment/process.html:15
 msgid "Price"
 msgstr "Precio"
 
@@ -66,7 +70,8 @@ msgstr ""
 "              Cupón \"%(code)s\" (%(discount)s%% descuento)\n"
 "                       "
 
-#: cart/templates/cart/detail.html:64 payment/templates/payment/process.html:17
+#: cart/templates/cart/detail.html:64
+#: payment/templates/payment/process.html:17
 #: payment/templates/payment/process.html:52
 msgid "Total"
 msgstr "Total"
@@ -96,13 +101,30 @@ msgstr "Comprar"
 msgid "Coupon"
 msgstr "Cupón"
 
-#: myshop/settings.py:122
+#: myshop/settings.py:123
 msgid "English"
 msgstr "Inglés"
 
-#: myshop/settings.py:123
+#: myshop/settings.py:124
 msgid "Spanish"
 msgstr "Español"
+
+#: myshop/urls.py:28
+msgid "cart/"
+msgstr "carro/"
+
+#: myshop/urls.py:29
+msgid "orders/"
+msgstr "pedidos/"
+
+#: myshop/urls.py:30
+msgid "payment/"
+msgstr "pago/"
+
+#: myshop/urls.py:31
+#| msgid "Coupon"
+msgid "coupon/"
+msgstr "cupon/"
 
 #: payment/templates/payment/canceled.html:4
 msgid "Payment canceled"
@@ -156,6 +178,19 @@ msgstr ""
 msgid "Pay now"
 msgstr "Pagar ahora"
 
+#: payment/urls.py:9
+msgid "process/"
+msgstr "procesar/"
+
+#: payment/urls.py:10
+msgid "completed/"
+msgstr "terminado/"
+
+#: payment/urls.py:11
+#| msgid "Payment canceled"
+msgid "canceled"
+msgstr "cancelado"
+
 #: shop/templates/shop/base.html:8 shop/templates/shop/base.html:13
 msgid "My Shop"
 msgstr "Mi tienda"
@@ -182,7 +217,6 @@ msgstr[1] ""
 "\n"
 "                %(items)s productos, $%(total)s\n"
 "                           "
-
 
 #: shop/templates/shop/base.html:36
 msgid "Your cart is empty"
