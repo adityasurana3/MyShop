@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'payment',
     'coupons',
     'rosetta',
+    'parler',
 ]
 
 MIDDLEWARE = [
@@ -164,3 +165,15 @@ REDIS_DB = 1
 LOCALE_PATHS = [
     BASE_DIR / 'locale'
 ]
+
+# django-parler settings
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en'},
+        {'code': 'es'}
+    ),
+    'default':{
+        'fallback': 'en',
+        'hide_untranslated': False
+    }
+}
